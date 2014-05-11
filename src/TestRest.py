@@ -1,8 +1,9 @@
 import sys, getopt
 
-from testrest.asserter import AssertTrue
+#from testrest.asserter import AssertTrue
+from testrest.TestRestManager import TestRestManager
 
-__author__ = 'doerig'
+__author__ = 'sdoerig@bluewin.ch'
 
 
 
@@ -26,9 +27,11 @@ def main():
         print ("No configFile given. Usage: " + execName + " -c <inputfile> ")
         sys.exit(2)
     print ('Config file is "' + configfile)
-    a = AssertTrue.AssertTrue()
-    a.doAssert()
-    print(a.isSuccess())
+    testRestManager = TestRestManager(configfile)
+    testRestManager.iterateTestCases()
+    #a = AssertTrue.AssertTrue()
+    #a.doAssert()
+    #print(a.isSuccess())
 
 
 if __name__ == "__main__":
