@@ -1,6 +1,7 @@
 from testrest.asserter.AbstractAssert import AbstractAssert
 
-__author__ = 'doerig'
+__author__ = 'sdoerig@bluewin.ch'
+
 
 
 

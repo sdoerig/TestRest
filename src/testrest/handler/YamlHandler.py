@@ -1,8 +1,10 @@
 '''
 Created on May 11, 2014
 
-@author: doerig
 '''
+
+__author__ = 'sdoerig@bluewin.ch'
+
 import yaml
 from testrest.handler.JsonHandler import JsonHandler
 class YamlHandler(JsonHandler):
