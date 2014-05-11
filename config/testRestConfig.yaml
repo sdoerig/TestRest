@@ -1,0 +1,28 @@
+config: what
+    
+
+test:
+    global:
+        baseurl: <optional>
+    testCase1:
+        authenticator: authenticator
+        url: whatever
+        method: (GET|POST|DELETE|WHATEVER)
+        params: 
+            param1: lslsls
+            param2: whatever
+        assertions:
+            assertTrue: whatever
+            assertEquals: whatever
+    testCase2:
+        authenticator: authenticator2
+        url: whatever2
+        method: (GET|POST|DELETE|WHATEVER)
+        params: 
+            param1: waatever
+            param2: whatever
+            param3: somewhat
+        assertions:
+            assertTrue: whatever
+            assertEquals: whatever
+            

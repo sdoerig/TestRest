@@ -1,4 +1,5 @@
-__author__ = 'doerig'
+__author__ = 'sdoerig@bluewin.ch'
+
 
 #from unittest import TestCase
 import unittest
