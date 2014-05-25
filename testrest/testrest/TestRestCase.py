@@ -5,6 +5,8 @@ Testcases to work on. Note the testcases behave like a single linked
 list.
 
 '''
+
+
 from testrest.handler.JsonHandler import JsonHandler
 
 __author__ = 'sdoerig@bluewin.ch'
@@ -18,21 +20,22 @@ class TestRestCase(object):
     '''
     classdocs
     '''
+    lh = None
+    logger = None
     _next = None
     _previous = None
     _caseName = None
     _params = None
-    _global = None
     _jsonResult = {}
     
 
-    def __init__(self, previous, caseName, globalParams, individualParams):
+    def __init__(self, previous, caseName, individualParams):
         '''
         Constructor
         '''
         self._caseName = caseName
-        self._global = globalParams
-        self._params = individualParams
+        self._params = JsonHandler()
+        self._params.set(individualParams)
         self._next = None
         self._jsonResult = JsonHandler()
         if isinstance(previous, TestRestCase):
@@ -40,6 +43,9 @@ class TestRestCase(object):
             self._previous = previous
         else:
             self._previous = None
+        if TestRestCase.lh != None:
+            TestRestCase.logger = TestRestCase.lh.getLogger(TestRestCase.__class__.__name__) 
+        
     
     
     def getNext(self):
@@ -57,9 +63,10 @@ class TestRestCase(object):
             return None
             
         
-    def add(self, caseName, globalParams, individualParams):
-        self._next = TestRestCase(self, caseName, globalParams, individualParams)
+    def add(self, caseName, individualParams):
+        self._next = TestRestCase(self, caseName, individualParams)
         return self._next
         
     def __str__(self, *args, **kwargs):
+        TestRestCase.logger.debug('__str__ called')
         return str(self._caseName + " Params: " + str(self._params))

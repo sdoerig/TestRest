@@ -1,6 +1,7 @@
-config: what
-    
-
+logger: 
+    name: TestRest
+    level: DEBUG
+    file: /tmp/what.txt
 test:
     global:
         baseurl: <optional>
