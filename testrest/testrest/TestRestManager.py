@@ -10,7 +10,9 @@ __author__ = 'sdoerig@bluewin.ch'
 from testrest.handler import YamlHandler
 from testrest.TestRestCase import TestRestCase
 
-from testrest.logger.LogHandler import LogHandler
+#from testrest.logger.LogHandler import LogHandler
+from testrest.reflector.ClassReflector import ClassReflector
+
 
 class TestRestManager():
     '''
@@ -30,7 +32,9 @@ class TestRestManager():
         print(str(self._configHandler.get()))
         
     def _prepareTestRestCases(self):
-        lh = LogHandler(self._configHandler.get('logger'))
+        cl = ClassReflector()
+        lh = cl.getInstance('testrest.logger.LogHandler', 'LogHandler', self._configHandler.get('logger'))
+        #lh = LogHandler(self._configHandler.get('logger'))
         TestRestCase.lh = lh
         logger = lh.getLogger(self.__class__.__name__)
         logger.info('Hellos')

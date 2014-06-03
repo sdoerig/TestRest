@@ -13,6 +13,9 @@ class LogHandler(object):
     '''
     _dict = None
     
+    
+    
+    
     def __init__(self, dict):
         '''
         Constructor
@@ -24,7 +27,9 @@ class LogHandler(object):
     def getLogger(self, name):
         logger = logging.getLogger(self._dict.get('name') + ' ' + name)
         
-        logger.setLevel(logging.DEBUG)
+        # Not checking for any error - if the user configured a 
+        # inexistent level option the program must die        
+        logger.setLevel(getattr(logging, self._dict.get('level')))
         # create file handler which logs even debug messages
         fh = logging.FileHandler(self._dict.get('file'))
         fh.setLevel(logging.DEBUG)
