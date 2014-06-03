@@ -40,3 +40,6 @@ class JsonHandler(object):
                 jsonPtr = None  
                 break
         return jsonPtr
+    
+    def __str__(self):
+        return str(self._jsonDict)
