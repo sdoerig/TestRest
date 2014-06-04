@@ -8,6 +8,7 @@ list.
 
 
 from testrest.handler.JsonHandler import JsonHandler
+from testrest.reflector.ClassReflector import ClassReflector
 
 __author__ = 'sdoerig@bluewin.ch'
 
@@ -21,12 +22,12 @@ class TestRestCase(object):
     classdocs
     '''
     lh = None
-    logger = None
     _next = None
     _previous = None
     _caseName = None
     _params = None
     _jsonResult = {}
+    _classReflector = None
     
 
     def __init__(self, previous, caseName, individualParams):
@@ -38,15 +39,19 @@ class TestRestCase(object):
         self._params.set(individualParams)
         self._next = None
         self._jsonResult = JsonHandler()
+        ClassReflector.lh = TestRestCase.lh
+        self._classReflector = ClassReflector()
         if isinstance(previous, TestRestCase):
             print("Setting to Previous" +  previous._caseName)
             self._previous = previous
         else:
             self._previous = None
-        if TestRestCase.lh != None:
+        
             TestRestCase.logger = TestRestCase.lh.getLogger(TestRestCase.__class__.__name__) 
         
-    
+    def setLogHandler(self, lh):
+        self._lh = lh
+        self._logger = lh.getLogger(TestRestCase.__class__.__name__) 
     
     def getNext(self):
         return self._next

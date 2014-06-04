@@ -10,14 +10,17 @@ __author__ = 'sdoerig@bluewin.ch'
 from testrest.handler import YamlHandler
 from testrest.TestRestCase import TestRestCase
 
-#from testrest.logger.LogHandler import LogHandler
-from testrest.reflector.ClassReflector import ClassReflector
+from testrest.logger.LogHandler import LogHandler
 
 
-class TestRestManager():
+
+
+class TestRestManager(object):
     '''
     classdocs
     '''
+    lh = None
+    logger = None
     _configHandler = None
     _testCaseRoot = None
     
@@ -32,13 +35,13 @@ class TestRestManager():
         print(str(self._configHandler.get()))
         
     def _prepareTestRestCases(self):
-        cl = ClassReflector()
-        lh = cl.getInstance('testrest.logger.LogHandler', 'LogHandler', self._configHandler.get('logger'))
-        #lh = LogHandler(self._configHandler.get('logger'))
-        TestRestCase.lh = lh
-        logger = lh.getLogger(self.__class__.__name__)
-        logger.info('Hellos')
-        logger.error('Error')
+        #cl = ClassReflector()
+        #lh = cl.getInstance('testrest.logger.LogHandler.LogHandler', self._configHandler.get('logger'))
+        TestRestManager.lh = LogHandler(self._configHandler.get('logger'))
+        TestRestCase.lh = TestRestManager.lh
+        TestRestManager.logger = TestRestManager.lh.getLogger(self.__class__.__name__)
+        #logger.info('Hellos')
+        #logger.error('Error')
         testCases = self._configHandler.get('test')
         testCasesKeys = list(testCases.keys())
         testCasesKeys.sort()

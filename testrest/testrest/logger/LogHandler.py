@@ -29,13 +29,13 @@ class LogHandler(object):
         
         # Not checking for any error - if the user configured a 
         # inexistent level option the program must die        
-        logger.setLevel(getattr(logging, self._dict.get('level')))
+        logger.setLevel(getattr(logging, self._dict.get('fileloglevel')))
         # create file handler which logs even debug messages
         fh = logging.FileHandler(self._dict.get('file'))
-        fh.setLevel(logging.DEBUG)
+        fh.setLevel(getattr(logging, self._dict.get('fileloglevel')))
         # create console handler with a higher log level
         ch = logging.StreamHandler()
-        ch.setLevel(logging.ERROR)
+        ch.setLevel(getattr(logging, self._dict.get('consoleloglevel')))
         # create formatter and add it to the handlers
         formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
         ch.setFormatter(formatter)

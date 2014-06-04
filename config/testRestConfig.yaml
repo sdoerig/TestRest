@@ -1,7 +1,8 @@
 logger: 
     name: TestRest
-    level: DEBUG
-    file: /tmp/what.txt
+    fileloglevel: DEBUG
+    consoleloglevel: INFO
+    file: /tmp/what2.txt
 test:
     global:
         baseurl: <optional>
@@ -13,7 +14,7 @@ test:
             param1: lslsls
             param2: whatever
         assertions:
-            assertTrue: whatever
+            testrest.asserter.AssertTrue.AssertTrue: whatever
             assertEquals: whatever
     testCase2:
         authenticator: authenticator2
@@ -24,7 +25,7 @@ test:
             param2: whatever
             param3: somewhat
         assertions:
-            assertTrue: whatever
+            testrest.asserter.AssertTrue.AssertTrue: whatever
             assertEquals: whatever
     testCase3:
         authenticator: authenticator2
@@ -35,6 +36,6 @@ test:
             param2: whatever
             param3: somewhat
         assertions:
-            assertTrue: whatever
+            testrest.asserter.AssertTrue.AssertTrue: whatever
             assertEquals: whatever
             

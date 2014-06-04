@@ -14,7 +14,7 @@ class AbstractAssert(unittest.TestCase):
         '''
         Constructor
         '''
-
+    
 
     def doAssert(self):
         raise NotImplementedError("Subclasses should implement this!")
