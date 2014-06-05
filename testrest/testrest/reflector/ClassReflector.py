@@ -19,11 +19,18 @@ class ClassReflector(object):
         moduleClassTokens = moduleclass.split('.')
         module = ".".join(moduleClassTokens[:-1])
         className = moduleClassTokens[-1]
-        module = importlib.import_module(module)
-        myClass = getattr(module, className)
         try:
-            if (myClass.logger == None):
-                myClass.logger = ClassReflector.lh.getLogger(myClass.__class__.__name__)
-        except:
-            ClassReflector.logger.warn("Class " + myClass.__class__.__name__ + " does not have a logger attribute...")
-        return myClass(*argv)
+            module = importlib.import_module(module)
+            myClass = getattr(module, className)
+            try:
+                if (myClass.logger == None):
+                    myClass.logger = ClassReflector.lh.getLogger(myClass.__class__.__name__)
+            except:
+                ClassReflector.logger.warn("Class " + myClass.__class__.__name__ + " does not have a logger attribute...")
+            return myClass(*argv)
+        except ImportError as err:
+            ClassReflector.logger.error('Package could not be found: ' + moduleclass)
+            return None
+        except AttributeError as err:
+            ClassReflector.logger.error('Module could not be found: ' + className)
+            return None

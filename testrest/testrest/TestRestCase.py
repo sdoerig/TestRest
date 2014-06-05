@@ -1,7 +1,7 @@
 '''
 Created on May 11, 2014
 
-Testcases to work on. Note the testcases behave like a single linked 
+Testcases to work on. Note the testcases behave like a double linked 
 list.
 
 '''
@@ -33,12 +33,13 @@ class TestRestCase(object):
     _jsonResult = {}
     _classReflector = None
     _httpClient = None
-    
+    _assertions = {}
 
     def __init__(self, previous, caseName, individualParams):
         '''
         Constructor
         '''
+        print("IND PARAMS: " + str(individualParams))
         JsonHandler.setLogHandler(TestRestCase.lh)
         self._caseName = caseName
         self._params = JsonHandler()
@@ -49,6 +50,15 @@ class TestRestCase(object):
         ClassReflector.lh = TestRestCase.lh
         self._classReflector = ClassReflector()
         TestRestCase.logger = TestRestCase.lh.getLogger(TestRestCase.__class__.__name__) 
+        configuredAssertions = self._params.get('assertions')
+        TestRestCase.logger.debug(self._caseName +": Configured assertions: " + str(configuredAssertions))
+        for ak in configuredAssertions:
+            TestRestCase.logger.debug('Adding assertion key: ' + ak)
+            if (self._assertions.get(ak, None) == None):
+                self._assertions[ak] = {'instance': self._classReflector.getInstance(ak), 
+                                        'assertions': []}
+            TestRestCase.logger.debug(self._caseName + ': Appending to: ' + ak + " " + str(configuredAssertions[ak]))
+            self._assertions[ak]['assertions'].append(configuredAssertions[ak])
         if isinstance(previous, TestRestCase):
             TestRestCase.logger.debug("Setting to Previous " +  previous._caseName)
             self._previous = previous
@@ -60,6 +70,15 @@ class TestRestCase(object):
     def runCase(self):
         TestRestCase.logger.info('Running case ' + self._caseName + " method " + self._params.get('method'))
         self._apiClient.setMethod(self._params.get('method'))
+        for ak in self._assertions:
+            TestRestCase.logger.debug("runCase: looping in: " + ak)
+            if (self._assertions[ak]['instance'] != None):
+                # if having an instance - ok let's check
+                print(self._assertions[ak]['assertions'])
+                for assertion in self._assertions[ak]['assertions']:
+                    self._assertions[ak]['instance'].doAssert(self._jsonResult.get(*assertion['expr']), assertion['msg'])
+            
+        
     
     def getNext(self):
         return self._next

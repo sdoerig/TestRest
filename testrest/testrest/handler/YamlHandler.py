@@ -21,7 +21,6 @@ class YamlHandler(JsonHandler):
         if (YamlHandler.lh == None):
             YamlHandler.lh = lh
         if (YamlHandler.logger == None):
-            print("setting logger-------------------")
             YamlHandler.lh.getLogger(YamlHandler.__class__.__name__) 
 
     def __init__(self):
@@ -35,7 +34,9 @@ class YamlHandler(JsonHandler):
         self._yamlFile = file
         fileHandler = open(file,'r')
         self.set(yaml.load(fileHandler))
+        
         fileHandler.close()
+        print(str(self))
         
         
    

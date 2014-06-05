@@ -42,6 +42,7 @@ class JsonHandler(object):
               get('a', 'a1') would return 'a1value' where as
               get('a') would return {'a1': 'a1value'}
         """
+        print(str(self._jsonDict))
         if self._jsonDict == None:
             return None
         jsonPtr = self._jsonDict

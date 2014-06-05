@@ -9,33 +9,48 @@ test:
     testCase1:
         authenticator: authenticator
         url: whatever
-        method: (GET|POST|DELETE|WHATEVER)
+        method: POST
         params: 
             param1: lslsls
             param2: whatever
         assertions:
-            testrest.asserter.AssertTrue.AssertTrue: whatever
-            assertEquals: whatever
+            testrest.asserter.AssertTrue.AssertTrue: 
+                expr: expression
+                msg: Error 1
     testCase2:
         authenticator: authenticator2
         url: whatever2
-        method: (GET|POST|DELETE|WHATEVER)
+        method: GET
         params: 
             param1: waatever
             param2: whatever
             param3: somewhat
         assertions:
-            testrest.asserter.AssertTrue.AssertTrue: whatever
-            assertEquals: whatever
+            testrest.asserter.AssertTrue.AssertTrue: 
+                expr: expression
+                msg: Error 2 
+            i.do.not.exist: 
+                expr: expression
+                msg: Error 3
+            testrest.asserter.AssertTrue.IDoNotExist: 
+                expr: expression
+                msg: Error 4
+            testrest.asserter.AssertTrue.IDoNotExist: 
+                expr: expression
+                msg: Error 5
     testCase3:
         authenticator: authenticator2
         url: whatever2
-        method: (GET|POST|DELETE|WHATEVER)
+        method: DELETE
         params: 
             param1: waatever
             param2: whatever
             param3: somewhat
         assertions:
-            testrest.asserter.AssertTrue.AssertTrue: whatever
-            assertEquals: whatever
-            
+            testrest.asserter.AssertTrue.AssertTrue: 
+                expr: expression
+                msg:  Error 6
+            testrest.asserter.AssertTrue.AssertTrue: 
+                expr: expression
+                msg:  Error 7 
+           

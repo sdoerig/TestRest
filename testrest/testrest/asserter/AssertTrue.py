@@ -18,10 +18,11 @@ class AssertTrue(AbstractAssert):
         '''
         super().__init__()
 
-    def doAssert(self):
+    def doAssert(self, expr, msg):
         AssertTrue.logger.debug("doAssert called...")
         try:
-            self.assertTrue(1, "ssss")
+            self.assertTrue(expr, msg)
             self.setSuccess(True)
         except AssertionError as error:
+            AssertTrue.logger.error("Assertion failed: " + str(error))
             self.setSuccess(False)
