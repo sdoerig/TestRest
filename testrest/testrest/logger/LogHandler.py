@@ -22,26 +22,30 @@ class LogHandler(object):
         '''
         self._dict = JsonHandler()
         self._dict.set(dict)
+        self._logger = None
+        
         
         
     def getLogger(self, name):
-        logger = logging.getLogger(self._dict.get('name') + ' ' + name)
+        if (self._logger == None):
+            logger = logging.getLogger(self._dict.get('name') + ' ' + name)
         
-        # Not checking for any error - if the user configured a 
-        # inexistent level option the program must die        
-        logger.setLevel(getattr(logging, self._dict.get('fileloglevel')))
-        # create file handler which logs even debug messages
-        fh = logging.FileHandler(self._dict.get('file'))
-        fh.setLevel(getattr(logging, self._dict.get('fileloglevel')))
-        # create console handler with a higher log level
-        ch = logging.StreamHandler()
-        ch.setLevel(getattr(logging, self._dict.get('consoleloglevel')))
-        # create formatter and add it to the handlers
-        formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-        ch.setFormatter(formatter)
-        fh.setFormatter(formatter)
-        # add the handlers to logger
-        logger.addHandler(ch)
-        logger.addHandler(fh)
-        return logger
+            # Not checking for any error - if the user configured a 
+            # inexistent level option the program must die        
+            logger.setLevel(getattr(logging, self._dict.get('fileloglevel')))
+            # create file handler which logs even debug messages
+            fh = logging.FileHandler(self._dict.get('file'))
+            fh.setLevel(getattr(logging, self._dict.get('fileloglevel')))
+            # create console handler with a higher log level
+            ch = logging.StreamHandler()
+            ch.setLevel(getattr(logging, self._dict.get('consoleloglevel')))
+            # create formatter and add it to the handlers
+            formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+            ch.setFormatter(formatter)
+            fh.setFormatter(formatter)
+            # add the handlers to logger
+            logger.addHandler(ch)
+            logger.addHandler(fh)
+            self._logger = logger
+        return self._logger
         

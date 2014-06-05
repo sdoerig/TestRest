@@ -29,17 +29,24 @@ class TestRestManager(object):
         '''
         Constructor
         '''
+        
+        
+        
         self._configHandler = YamlHandler.YamlHandler()
+        
         self._configHandler.load(configFile)
+        TestRestManager.lh = LogHandler(self._configHandler.get('logger'))
+        TestRestCase.lh = TestRestManager.lh
+        YamlHandler.YamlHandler.setLogHandler(TestRestManager.lh)
+        TestRestManager.logger = TestRestManager.lh.getLogger(self.__class__.__name__)
+        
         self._prepareTestRestCases()
         print(str(self._configHandler.get()))
         
     def _prepareTestRestCases(self):
         #cl = ClassReflector()
         #lh = cl.getInstance('testrest.logger.LogHandler.LogHandler', self._configHandler.get('logger'))
-        TestRestManager.lh = LogHandler(self._configHandler.get('logger'))
-        TestRestCase.lh = TestRestManager.lh
-        TestRestManager.logger = TestRestManager.lh.getLogger(self.__class__.__name__)
+        
         #logger.info('Hellos')
         #logger.error('Error')
         testCases = self._configHandler.get('test')
@@ -60,6 +67,6 @@ class TestRestManager(object):
     def iterateTestCases(self):
         tc = self._testCaseRoot
         while tc is not None:
-            print(str(tc))
+            tc.runCase()
             tc = tc.getNext()
             

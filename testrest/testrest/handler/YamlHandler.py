@@ -11,13 +11,24 @@ class YamlHandler(JsonHandler):
     '''
     classdocs
     '''
+    lh = None
+    logger = None
+    
     _yamlDict = {}
     _yamlFile = None
+
+    def setLogHandler(lh):
+        if (YamlHandler.lh == None):
+            YamlHandler.lh = lh
+        if (YamlHandler.logger == None):
+            print("setting logger-------------------")
+            YamlHandler.lh.getLogger(YamlHandler.__class__.__name__) 
 
     def __init__(self):
         '''
         Constructor
         '''
+        JsonHandler.setLogHandler(YamlHandler.lh)
         super().__init__()
         
     def load(self, file):
