@@ -14,7 +14,8 @@ test:
             param1: lslsls
             param2: whatever
         assertions:
-            testrest.asserter.AssertTrue.AssertTrue: 
+            testCase1_asserter1:
+                asserter: testrest.asserter.AssertTrue.AssertTrue 
                 expr: expression
                 msg: Error 1
     testCase2:
@@ -26,16 +27,20 @@ test:
             param2: whatever
             param3: somewhat
         assertions:
-            testrest.asserter.AssertTrue.AssertTrue: 
+            testCase2_asserter1:
+                asserter: testrest.asserter.AssertTrue.AssertTrue 
                 expr: expression
-                msg: Error 2 
-            i.do.not.exist: 
+                msg: Error 2
+            testCase2_asserter2: 
+                asserter: i.do.not.exist 
                 expr: expression
                 msg: Error 3
-            testrest.asserter.AssertTrue.IDoNotExist: 
+            testCase2_asserter3:
+                asserter: testrest.asserter.AssertTrue.IDoNotExist
                 expr: expression
                 msg: Error 4
-            testrest.asserter.AssertTrue.IDoNotExist: 
+            testCase2_asserter4:
+                asserter: testrest.asserter.AssertTrue.IDoNotExist
                 expr: expression
                 msg: Error 5
     testCase3:
@@ -47,10 +52,12 @@ test:
             param2: whatever
             param3: somewhat
         assertions:
-            testrest.asserter.AssertTrue.AssertTrue: 
+            testCase3_asserter1:
+                asserter: testrest.asserter.AssertTrue.AssertTrue
                 expr: expression
                 msg:  Error 6
-            testrest.asserter.AssertTrue.AssertTrue: 
+            testCase3_asserter2:
+                asserter: testrest.asserter.AssertTrue.AssertTrue
                 expr: expression
                 msg:  Error 7 
            

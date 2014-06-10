@@ -33,7 +33,7 @@ class TestRestCase(object):
     _jsonResult = {}
     _classReflector = None
     _httpClient = None
-    _assertions = {}
+    _assertions = None
 
     def __init__(self, previous, caseName, individualParams):
         '''
@@ -50,12 +50,14 @@ class TestRestCase(object):
         ClassReflector.lh = TestRestCase.lh
         self._classReflector = ClassReflector()
         TestRestCase.logger = TestRestCase.lh.getLogger(TestRestCase.__class__.__name__) 
+        
         configuredAssertions = self._params.get('assertions')
         TestRestCase.logger.debug(self._caseName +": Configured assertions: " + str(configuredAssertions))
+        self._assertions = {}
         for ak in configuredAssertions:
-            TestRestCase.logger.debug('Adding assertion key: ' + ak)
+            TestRestCase.logger.debug(self._caseName + ': Adding assertion key: ' + ak)
             if (self._assertions.get(ak, None) == None):
-                self._assertions[ak] = {'instance': self._classReflector.getInstance(ak), 
+                self._assertions[ak] = {'instance': self._classReflector.getInstance(configuredAssertions[ak]['asserter']), 
                                         'assertions': []}
             TestRestCase.logger.debug(self._caseName + ': Appending to: ' + ak + " " + str(configuredAssertions[ak]))
             self._assertions[ak]['assertions'].append(configuredAssertions[ak])
@@ -71,7 +73,7 @@ class TestRestCase(object):
         TestRestCase.logger.info('Running case ' + self._caseName + " method " + self._params.get('method'))
         self._apiClient.setMethod(self._params.get('method'))
         for ak in self._assertions:
-            TestRestCase.logger.debug("runCase: looping in: " + ak)
+            TestRestCase.logger.info(self._caseName + ": runCase: assertion key: " + ak)
             if (self._assertions[ak]['instance'] != None):
                 # if having an instance - ok let's check
                 print(self._assertions[ak]['assertions'])

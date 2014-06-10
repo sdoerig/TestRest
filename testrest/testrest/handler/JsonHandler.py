@@ -21,6 +21,7 @@ class JsonHandler(object):
         '''
         if (JsonHandler.loggerFP == None):
             JsonHandler.loggerFP = JsonHandler.logSTDOUT
+        self._jsonDict = {}
         
     
     def setLogHandler(lh):
