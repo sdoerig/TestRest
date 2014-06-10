@@ -25,9 +25,11 @@ class HttpClient(object):
         '''
         Constructor
         '''
+        self.__paramters = {}
     
     def setParameters(self, **parameters):
         self.__paramters = parameters
+        print("setParameters: " + str(self.__paramters))
         ptoken = []
         for key, val in parameters.items():
             ptoken.append( key + "=" + urllib.parse.quote(str(val)) )

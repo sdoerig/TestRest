@@ -7,7 +7,11 @@ test:
     global:
         baseurl: <optional>
     testCase1:
-        authenticator: authenticator
+        authenticator:  
+            class: testrest.authenticator.BasicAuthenticator.BasicAuthenticator
+            params:
+                username: myBasicAuthUsername
+                password: myBasicAuthPassword
         url: whatever
         method: POST
         params: 
@@ -15,11 +19,15 @@ test:
             param2: whatever
         assertions:
             testCase1_asserter1:
-                asserter: testrest.asserter.AssertTrue.AssertTrue 
+                class: testrest.asserter.AssertTrue.AssertTrue 
                 expr: expression
                 msg: Error 1
     testCase2:
-        authenticator: authenticator2
+        authenticator:  
+            class: testrest.authenticator.BasicAuthenticator.BasicAuthenticator
+            params:
+                username: myBasicAuthUsername
+                password: myBasicAuthPassword
         url: whatever2
         method: GET
         params: 
@@ -28,23 +36,27 @@ test:
             param3: somewhat
         assertions:
             testCase2_asserter1:
-                asserter: testrest.asserter.AssertTrue.AssertTrue 
+                class: testrest.asserter.AssertTrue.AssertTrue 
                 expr: expression
                 msg: Error 2
             testCase2_asserter2: 
-                asserter: i.do.not.exist 
+                class: i.do.not.exist 
                 expr: expression
                 msg: Error 3
             testCase2_asserter3:
-                asserter: testrest.asserter.AssertTrue.IDoNotExist
+                class: testrest.asserter.AssertTrue.IDoNotExist
                 expr: expression
                 msg: Error 4
             testCase2_asserter4:
-                asserter: testrest.asserter.AssertTrue.IDoNotExist
+                class: testrest.asserter.AssertTrue.IDoNotExist
                 expr: expression
                 msg: Error 5
     testCase3:
-        authenticator: authenticator2
+        authenticator:  
+            class: testrest.authenticator.BasicAuthenticator.BasicAuthenticator
+            params:
+                username: myBasicAuthUsername
+                password: myBasicAuthPassword
         url: whatever2
         method: DELETE
         params: 
@@ -53,11 +65,11 @@ test:
             param3: somewhat
         assertions:
             testCase3_asserter1:
-                asserter: testrest.asserter.AssertTrue.AssertTrue
+                class: testrest.asserter.AssertTrue.AssertTrue
                 expr: expression
                 msg:  Error 6
             testCase3_asserter2:
-                asserter: testrest.asserter.AssertTrue.AssertTrue
+                class: testrest.asserter.AssertTrue.AssertTrue
                 expr: expression
                 msg:  Error 7 
            

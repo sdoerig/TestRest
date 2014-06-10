@@ -36,7 +36,6 @@ class YamlHandler(JsonHandler):
         self.set(yaml.load(fileHandler))
         
         fileHandler.close()
-        print(str(self))
         
         
    

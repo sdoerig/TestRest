@@ -10,7 +10,6 @@ list.
 from testrest.handler.JsonHandler import JsonHandler
 from testrest.reflector.ClassReflector import ClassReflector
 from testrest.apiclient.HttpClient import HttpClient
-from unittest.case import TestCase
 
 
 __author__ = 'sdoerig@bluewin.ch'
@@ -34,12 +33,12 @@ class TestRestCase(object):
     _classReflector = None
     _httpClient = None
     _assertions = None
+    _authenticator = None
 
     def __init__(self, previous, caseName, individualParams):
         '''
         Constructor
         '''
-        print("IND PARAMS: " + str(individualParams))
         JsonHandler.setLogHandler(TestRestCase.lh)
         self._caseName = caseName
         self._params = JsonHandler()
@@ -50,14 +49,15 @@ class TestRestCase(object):
         ClassReflector.lh = TestRestCase.lh
         self._classReflector = ClassReflector()
         TestRestCase.logger = TestRestCase.lh.getLogger(TestRestCase.__class__.__name__) 
-        
+        self._authenticator = self._classReflector.getInstance(self._params.get('authenticator', 'class'), 
+                                                               **self._params.get('authenticator', 'params'))
         configuredAssertions = self._params.get('assertions')
         TestRestCase.logger.debug(self._caseName +": Configured assertions: " + str(configuredAssertions))
         self._assertions = {}
         for ak in configuredAssertions:
             TestRestCase.logger.debug(self._caseName + ': Adding assertion key: ' + ak)
             if (self._assertions.get(ak, None) == None):
-                self._assertions[ak] = {'instance': self._classReflector.getInstance(configuredAssertions[ak]['asserter']), 
+                self._assertions[ak] = {'class': self._classReflector.getInstance(configuredAssertions[ak]['class']), 
                                         'assertions': []}
             TestRestCase.logger.debug(self._caseName + ': Appending to: ' + ak + " " + str(configuredAssertions[ak]))
             self._assertions[ak]['assertions'].append(configuredAssertions[ak])
@@ -72,13 +72,15 @@ class TestRestCase(object):
     def runCase(self):
         TestRestCase.logger.info('Running case ' + self._caseName + " method " + self._params.get('method'))
         self._apiClient.setMethod(self._params.get('method'))
+        params = self._params.get('params')
+        TestRestCase.logger.info(self._caseName + ": Params: " + str(params))
+        self._apiClient.setParameters(**params)
         for ak in self._assertions:
             TestRestCase.logger.info(self._caseName + ": runCase: assertion key: " + ak)
-            if (self._assertions[ak]['instance'] != None):
+            if (self._assertions[ak]['class'] != None):
                 # if having an instance - ok let's check
-                print(self._assertions[ak]['assertions'])
                 for assertion in self._assertions[ak]['assertions']:
-                    self._assertions[ak]['instance'].doAssert(self._jsonResult.get(*assertion['expr']), assertion['msg'])
+                    self._assertions[ak]['class'].doAssert(self._jsonResult.get(*assertion['expr']), assertion['msg'])
             
         
     

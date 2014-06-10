@@ -28,10 +28,7 @@ class TestRestManager(object):
     def __init__(self, configFile):
         '''
         Constructor
-        '''
-        
-        
-        
+        '''      
         self._configHandler = YamlHandler.YamlHandler()
         
         self._configHandler.load(configFile)
@@ -41,7 +38,6 @@ class TestRestManager(object):
         TestRestManager.logger = TestRestManager.lh.getLogger(self.__class__.__name__)
         
         self._prepareTestRestCases()
-        print(str(self._configHandler.get()))
         
     def _prepareTestRestCases(self):
         #cl = ClassReflector()
