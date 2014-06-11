@@ -22,7 +22,7 @@ class BasicAuthenticator(AbstractAuthenticator):
         Constructor
         '''
         if (BasicAuthenticator.lh != None):
-            BasicAuthenticator.logger = BasicAuthenticator.lh.getLogger(BasicAuthenticator.__class__.__name__)
+            BasicAuthenticator.logger = BasicAuthenticator.lh.getLogger(BasicAuthenticator.__name__)
         for attr in ('username', 'password'):
             if (kwargs.get(attr, None) == None):
                 msg = self.__class__.__name__ + ": Property username is None - please set it in the config.yaml"

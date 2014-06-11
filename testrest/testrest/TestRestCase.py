@@ -48,7 +48,7 @@ class TestRestCase(object):
         self._jsonResult = JsonHandler()
         ClassReflector.lh = TestRestCase.lh
         self._classReflector = ClassReflector()
-        TestRestCase.logger = TestRestCase.lh.getLogger(TestRestCase.__class__.__name__) 
+        TestRestCase.logger = TestRestCase.lh.getLogger(TestRestCase.__name__) 
         self._authenticator = self._classReflector.getInstance(self._params.get('authenticator', 'class'), 
                                                                **self._params.get('authenticator', 'params'))
         configuredAssertions = self._params.get('assertions')

@@ -29,7 +29,7 @@ class JsonHandler(object):
         if (JsonHandler.lh == None):
             JsonHandler.lh = lh
         if ((JsonHandler.logger == None) and (JsonHandler.lh != None)):
-            JsonHandler.logger = JsonHandler.lh.getLogger(JsonHandler.__class__.__name__) 
+            JsonHandler.logger = JsonHandler.lh.getLogger(JsonHandler.__name__) 
             JsonHandler.loggerFP = JsonHandler.log
     
     def set(self, dict):

@@ -21,7 +21,7 @@ class YamlHandler(JsonHandler):
         if (YamlHandler.lh == None):
             YamlHandler.lh = lh
         if (YamlHandler.logger == None):
-            YamlHandler.lh.getLogger(YamlHandler.__class__.__name__) 
+            YamlHandler.lh.getLogger(YamlHandler.__name__) 
 
     def __init__(self):
         '''

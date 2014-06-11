@@ -28,7 +28,7 @@ class LogHandler(object):
         
     def getLogger(self, name):
         if (self._logger == None):
-            logger = logging.getLogger(self._dict.get('name') + ' ' + name)
+            logger = logging.getLogger(self._dict.get('name') )
         
             # Not checking for any error - if the user configured a 
             # inexistent level option the program must die        
@@ -47,5 +47,32 @@ class LogHandler(object):
             logger.addHandler(ch)
             logger.addHandler(fh)
             self._logger = logger
-        return self._logger
         
+        return LoggerWrapper(name, self._logger)
+        
+class LoggerWrapper(object):
+    """
+    Wrapper class around the logger class. It's purpose is just to make
+    it easy printing the class name of to instance using the LoggerWrapper.
+    
+    """
+    _class = None
+    _lh = None
+    def __init__(self, name, logger):
+        self._class = name
+        self._logger = logger
+        
+    def critical(self, msg):
+        self._logger.critical(self._class + ": " + str(msg))
+        
+    def info(self, msg):
+        self._logger.info(self._class + ": " + str(msg))
+        
+    def debug(self, msg):
+        self._logger.debug(self._class + ": " + str(msg))
+        
+    def warning(self, msg):
+        self._logger.warning(self._class + ": " + str(msg))
+        
+    def error(self, msg):
+        self._logger.error(self._class + ": " + str(msg))

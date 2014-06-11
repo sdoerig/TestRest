@@ -35,7 +35,7 @@ class TestRestManager(object):
         TestRestManager.lh = LogHandler(self._configHandler.get('logger'))
         TestRestCase.lh = TestRestManager.lh
         YamlHandler.YamlHandler.setLogHandler(TestRestManager.lh)
-        TestRestManager.logger = TestRestManager.lh.getLogger(self.__class__.__name__)
+        TestRestManager.logger = TestRestManager.lh.getLogger("Hammer")
         
         self._prepareTestRestCases()
         
