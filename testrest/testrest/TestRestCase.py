@@ -72,9 +72,12 @@ class TestRestCase(object):
     def runCase(self):
         TestRestCase.logger.info('Running case ' + self._caseName + " method " + self._params.get('method'))
         self._apiClient.setMethod(self._params.get('method'))
+        self._apiClient.setHeader(self._authenticator.getHeaders())
+        self._apiClient.setUrl(self._params.get('url'))
         params = self._params.get('params')
         TestRestCase.logger.info(self._caseName + ": Params: " + str(params))
         self._apiClient.setParameters(**params)
+        print(self._apiClient.doWork())
         for ak in self._assertions:
             TestRestCase.logger.info(self._caseName + ": runCase: assertion key: " + ak)
             if (self._assertions[ak]['class'] != None):

@@ -16,6 +16,7 @@ class BasicAuthenticator(AbstractAuthenticator):
     logger = None
     _username = None
     _password = None
+    _usertoken = None
 
     def __init__(self, **kwargs):
         '''
@@ -30,16 +31,15 @@ class BasicAuthenticator(AbstractAuthenticator):
                 raise AttributeError(msg)
         self._username = kwargs.get('username')
         self._password = kwargs.get('password')
+        self._usertoken = str(self._username) + ":" + str(self._password)
         BasicAuthenticator.logger.debug("Set username to: " + \
                                         self._username + \
                                         ' set password to: ' + \
                                         self._password)
         
 
-    def getHeader(self):
-        return "Authorization: Basic " + \
-            base64.b64encode(str.encode(self._username)).decode("utf-8") + \
-            base64.b64encode(b':').decode("utf-8") + \
-            base64.b64encode(str.encode(self._password)).decode("utf-8")
+    def getHeaders(self):
+        return { "Authorization":  "Basic " + \
+            base64.b64encode(str.encode(self._usertoken)).decode("utf-8")  }
             
         

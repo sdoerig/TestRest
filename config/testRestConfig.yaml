@@ -10,13 +10,11 @@ test:
         authenticator:  
             class: testrest.authenticator.BasicAuthenticator.BasicAuthenticator
             params:
-                username: myBasicAuthUsername
-                password: myBasicAuthPassword
-        url: whatever
-        method: POST
-        params: 
-            param1: lslsls
-            param2: whatever
+                username: wsuser
+                password: wspassword
+        url: http://localhost:8080/contact/4
+        method: GET
+        params: {}
         assertions:
             testCase1_asserter1:
                 class: testrest.asserter.AssertTrue.AssertTrue 

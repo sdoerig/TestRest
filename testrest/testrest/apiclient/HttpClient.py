@@ -60,6 +60,7 @@ class HttpClient(object):
             req.get_method = lambda: self.__method
         else:
             req = urllib.request.Request(self.getUrlInMethodContext())
+        print('#######' + str(self.__header))
         for header, val in self.__header.items():
             req.add_header(header, val)
         resp = urllib.request.urlopen(req)

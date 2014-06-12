@@ -14,5 +14,8 @@ class AbstractAuthenticator(object):
         Constructor
         '''
         
-    def getHeader(self):
-        raise NotImplementedError('Authenticator must implement getHeader')
+    def getHeaders(self):
+        """
+        Must return a dict of HTTP headers.
+        """
+        raise NotImplementedError('Authenticator must implement getHeaders')

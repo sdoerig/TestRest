@@ -56,8 +56,8 @@ class LoggerWrapper(object):
     it easy printing the class name of to instance using the LoggerWrapper.
     
     """
+    
     _class = None
-    _lh = None
     def __init__(self, name, logger):
         self._class = name
         self._logger = logger
