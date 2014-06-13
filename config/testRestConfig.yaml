@@ -15,6 +15,8 @@ test:
         url: http://localhost:8080/contact/4
         method: GET
         params: {}
+        header:
+            Content-Type: application/json
         assertions:
             testCase1_asserter1:
                 class: testrest.asserter.AssertTrue.AssertTrue 
@@ -24,14 +26,14 @@ test:
         authenticator:  
             class: testrest.authenticator.BasicAuthenticator.BasicAuthenticator
             params:
-                username: myBasicAuthUsername
-                password: myBasicAuthPassword
-        url: whatever2
-        method: GET
+                username: wsuser
+                password: wspassword
+        url: http://localhost:8080/contact
+        method: POST
         params: 
-            param1: waatever
-            param2: whatever
-            param3: somewhat
+            firstName: TESTREST
+            lastName: BAR
+            phone: 0912345678
         assertions:
             testCase2_asserter1:
                 class: testrest.asserter.AssertTrue.AssertTrue 

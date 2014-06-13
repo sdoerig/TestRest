@@ -29,11 +29,12 @@ class TestRestCase(object):
     _previous = None
     _caseName = None
     _params = None
-    _jsonResult = {}
+    _jsonResult = None
     _classReflector = None
     _httpClient = None
     _assertions = None
     _authenticator = None
+    
 
     def __init__(self, previous, caseName, individualParams):
         '''
@@ -50,10 +51,11 @@ class TestRestCase(object):
         self._classReflector = ClassReflector()
         TestRestCase.logger = TestRestCase.lh.getLogger(TestRestCase.__name__) 
         self._authenticator = self._classReflector.getInstance(self._params.get('authenticator', 'class'), 
-                                                               **self._params.get('authenticator', 'params'))
+                                                           **self._params.get('authenticator', 'params'))
         configuredAssertions = self._params.get('assertions')
         TestRestCase.logger.debug(self._caseName +": Configured assertions: " + str(configuredAssertions))
         self._assertions = {}
+        
         for ak in configuredAssertions:
             TestRestCase.logger.debug(self._caseName + ': Adding assertion key: ' + ak)
             if (self._assertions.get(ak, None) == None):
@@ -72,12 +74,13 @@ class TestRestCase(object):
     def runCase(self):
         TestRestCase.logger.info('Running case ' + self._caseName + " method " + self._params.get('method'))
         self._apiClient.setMethod(self._params.get('method'))
+        self._apiClient.setHeader(self._params.get('header'))
         self._apiClient.setHeader(self._authenticator.getHeaders())
         self._apiClient.setUrl(self._params.get('url'))
         params = self._params.get('params')
         TestRestCase.logger.info(self._caseName + ": Params: " + str(params))
         self._apiClient.setParameters(**params)
-        print(self._apiClient.doWork())
+        self._jsonResult.set(self._apiClient.doWork())
         for ak in self._assertions:
             TestRestCase.logger.info(self._caseName + ": runCase: assertion key: " + ak)
             if (self._assertions[ak]['class'] != None):

@@ -16,7 +16,7 @@ class HttpClient(object):
     __url = None
     __baseUrl = None
     
-    __paramters = {}
+    __parameters = {}
     __header = {}
     __parameterQS = ""
     
@@ -25,11 +25,12 @@ class HttpClient(object):
         '''
         Constructor
         '''
-        self.__paramters = {}
+        self.__parameters = {}
+        self.__header = {}
     
     def setParameters(self, **parameters):
-        self.__paramters = parameters
-        print("setParameters: " + str(self.__paramters))
+        self.__parameters = parameters
+        print("setParameters: " + str(self.__parameters))
         ptoken = []
         for key, val in parameters.items():
             ptoken.append( key + "=" + urllib.parse.quote(str(val)) )
@@ -39,7 +40,8 @@ class HttpClient(object):
         self.__baseUrl = url
     
     def setHeader(self, header):
-        self.__header = header
+        if type(header) is dict:
+            self.__header.update(header)
     
     def setMethod(self, method):
         if method == 'GET' or method == 'POST' or method == 'DELETE':
@@ -56,7 +58,7 @@ class HttpClient(object):
         req = None
         if self.__method == "POST" or self.__method == "DELETE":
             print (self.getUrlInMethodContext())
-            req = urllib.request.Request(self.getUrlInMethodContext(), self.__parameterQS)
+            req = urllib.request.Request(self.getUrlInMethodContext(), self.__parameters)
             req.get_method = lambda: self.__method
         else:
             req = urllib.request.Request(self.getUrlInMethodContext())
@@ -64,8 +66,9 @@ class HttpClient(object):
         for header, val in self.__header.items():
             req.add_header(header, val)
         resp = urllib.request.urlopen(req)
-        
         raw_data = resp.read().decode('utf-8')
+        print(raw_data)
+        
         #return raw_data
         raw_data = re.sub('^[a-zA-Z]+[^(]+\(', '', raw_data)
         raw_data = re.sub('\)$', '', raw_data)
