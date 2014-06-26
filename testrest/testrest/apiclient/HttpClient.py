@@ -58,11 +58,12 @@ class HttpClient(object):
         req = None
         if self.__method == "POST" or self.__method == "DELETE":
             print (self.getUrlInMethodContext())
-            req = urllib.request.Request(self.getUrlInMethodContext(), self.__parameters)
+            req = urllib.request.Request(self.getUrlInMethodContext(), \
+                                         json.dumps(self.__parameters).encode('utf_8'))
             req.get_method = lambda: self.__method
         else:
             req = urllib.request.Request(self.getUrlInMethodContext())
-        print('#######' + str(self.__header))
+        
         for header, val in self.__header.items():
             req.add_header(header, val)
         resp = urllib.request.urlopen(req)
@@ -72,6 +73,9 @@ class HttpClient(object):
         #return raw_data
         raw_data = re.sub('^[a-zA-Z]+[^(]+\(', '', raw_data)
         raw_data = re.sub('\)$', '', raw_data)
-        
-        return json.loads(raw_data)
+        ret = None
+        try:
+            ret = json.loads(raw_data)
+        except ValueError as e:
+            ret = None
         

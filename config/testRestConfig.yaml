@@ -34,6 +34,8 @@ test:
             firstName: TESTREST
             lastName: BAR
             phone: 0912345678
+        header:
+            Content-Type: application/json
         assertions:
             testCase2_asserter1:
                 class: testrest.asserter.AssertTrue.AssertTrue 

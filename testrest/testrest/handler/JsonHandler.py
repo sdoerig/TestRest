@@ -57,6 +57,8 @@ class JsonHandler(object):
                 break
         return jsonPtr
     
+    
+    
     def logSTDOUT(level, msg):
         print(level + "" + msg)
     

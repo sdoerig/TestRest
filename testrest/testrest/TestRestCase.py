@@ -80,7 +80,12 @@ class TestRestCase(object):
         params = self._params.get('params')
         TestRestCase.logger.info(self._caseName + ": Params: " + str(params))
         self._apiClient.setParameters(**params)
-        self._jsonResult.set(self._apiClient.doWork())
+        try:
+            res = self._apiClient.doWork()
+        except Exception as e:
+            res = None
+            TestRestCase.logger.warning('Http client has thown an error: ' + str(e.args))
+        self._jsonResult.set(res)
         for ak in self._assertions:
             TestRestCase.logger.info(self._caseName + ": runCase: assertion key: " + ak)
             if (self._assertions[ak]['class'] != None):
