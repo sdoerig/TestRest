@@ -32,6 +32,7 @@ class TestRestCase(object):
     _jsonResult = None
     _classReflector = None
     _httpClient = None
+    _httpResponse = None
     _assertions = None
     _authenticator = None
     
@@ -72,6 +73,7 @@ class TestRestCase(object):
             
         
     def runCase(self):
+        self._prepareCallbacks()
         TestRestCase.logger.info('Running case ' + self._caseName + " method " + self._params.get('method'))
         self._apiClient.setMethod(self._params.get('method'))
         self._apiClient.setHeader(self._params.get('header'))
@@ -83,17 +85,27 @@ class TestRestCase(object):
         try:
             res = self._apiClient.doWork()
         except Exception as e:
-            res = None
+            res  = None
             TestRestCase.logger.warning('Http client has thown an error: ' + str(e.args))
+        TestRestCase.logger.debug("runCase: HTTP result: " + str(res))
         self._jsonResult.set(res)
+        
         for ak in self._assertions:
             TestRestCase.logger.info(self._caseName + ": runCase: assertion key: " + ak)
             if (self._assertions[ak]['class'] != None):
                 # if having an instance - ok let's check
                 for assertion in self._assertions[ak]['assertions']:
-                    self._assertions[ak]['class'].doAssert(self._jsonResult.get(*assertion['expr']), assertion['msg'])
+                    self._assertions[ak]['class'].doAssert(self._jsonResult.get(assertion['expr']), assertion['msg'])
             
-        
+    def _prepareCallbacks(self):
+        callback = self._params.get('callback')
+        if callback != None:
+            # ok having callbacks
+            for k in callback.keys():
+                TestRestCase.logger.debug("_prepareCallbacks: callback key: " + str(k))
+                TestRestCase.logger.debug("_prepareCallbacks: callback path: " + str(callback[k]['path']))
+                path = callback[k]['path']
+                print("Callback res: testCaseName:  " + self._caseName + ": callback value " + str(self.getPreviousTestResult(k, *path)))
     
     def getNext(self):
         return self._next
@@ -102,12 +114,16 @@ class TestRestCase(object):
         return self._previous    
         
     def getPreviousTestResult(self, caseName, *argv):
+        TestRestCase.logger.debug("getPreviousTestResult: my case name is: " + self._caseName)
         if caseName == self._caseName:
-            return self._jsonResult.get(argv)
+            for a in argv:
+                TestRestCase.logger.debug("getPreviousTestResult: path value: " + str(a))
+            TestRestCase.logger.debug("getPreviousTestResult: " + self._caseName + ": json result: " + str(self._jsonResult))
+            TestRestCase.logger.debug("getPreviousTestResult: " + self._caseName + ": json returned: " + str(self._jsonResult.get(*argv)))
+            return self._jsonResult.get(*argv)
         elif self._previous != None:
-            return self._previous.getPreviousTestResult(caseName, argv)
-        else: 
-            return None
+            return self._previous.getPreviousTestResult(caseName, *argv)
+        
             
         
     def add(self, caseName, individualParams):

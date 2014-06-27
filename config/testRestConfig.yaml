@@ -1,7 +1,7 @@
 logger: 
     name: TestRest
     fileloglevel: DEBUG
-    consoleloglevel: INFO
+    consoleloglevel: DEBUG
     file: /tmp/what2.txt
 test:
     global:
@@ -73,5 +73,13 @@ test:
             testCase3_asserter2:
                 class: testrest.asserter.AssertTrue.AssertTrue
                 expr: expression
-                msg:  Error 7 
+                msg:  Error 7
+        callback:
+            testCase2:
+                alias: testCase2Alias
+                path: 
+                    - header
+                    - Location
+
+                
            

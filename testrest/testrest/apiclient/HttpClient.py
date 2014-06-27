@@ -68,14 +68,29 @@ class HttpClient(object):
             req.add_header(header, val)
         resp = urllib.request.urlopen(req)
         raw_data = resp.read().decode('utf-8')
-        print(raw_data)
         
         #return raw_data
         raw_data = re.sub('^[a-zA-Z]+[^(]+\(', '', raw_data)
         raw_data = re.sub('\)$', '', raw_data)
-        ret = None
+       
+        ret = {'header': self._dictifyHeader(resp.getheaders())}
         try:
-            ret = json.loads(raw_data)
+            ret['body'] = json.loads(raw_data)
         except ValueError as e:
-            ret = None
+            ret['body'] = None
+        return ret
+            
+    def _dictifyHeader(self, headers):
+        """
+        Getting the header from urllib in the form
+        [('Date', 'Fri, 27 Jun 2014 14:26:30 GMT'), 
+         ('Location', 'http://localhost:8080/contact/32'), 
+         ('Content-Type', 'application/json'), 
+         ('Connection', 'close')]
+        Since using internaly JSON transform this to a valid JSON
+        """
+        ret = {}
+        for tupel in headers:
+            ret[tupel[0]] = tupel[1]
+        return ret
         

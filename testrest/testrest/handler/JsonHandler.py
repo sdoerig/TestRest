@@ -49,7 +49,7 @@ class JsonHandler(object):
         jsonPtr = self._jsonDict
         for keyToken in argv:
             if keyToken in jsonPtr:
-                JsonHandler.loggerFP('DEBUG', "Setting " + keyToken)
+                JsonHandler.loggerFP('DEBUG', "Setting jsonPtr" + keyToken)
                 jsonPtr = jsonPtr[keyToken]
             else:
                 # out of any sequence 
