@@ -21,7 +21,16 @@ __author__ = 'sdoerig@bluewin.ch'
 
 class TestRestCase(object):
     '''
-    classdocs
+    Logical representation of one test case. Example config file:
+    test:
+        global:
+            ..
+        testCase1:
+            ..
+    In the configfile there is the section "test" any key in the next deeper level is logically 
+    represented by an instance of this class. This applies for anything on this level but "global". 
+    Note also any instance knows its previous test case an the next - kind of double linked list.
+    is represented by a  
     '''
     lh = None
     logger = None
@@ -32,7 +41,6 @@ class TestRestCase(object):
     _jsonResult = None
     _classReflector = None
     _httpClient = None
-    _httpResponse = None
     _assertions = None
     _authenticator = None
     
