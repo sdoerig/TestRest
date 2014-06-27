@@ -29,8 +29,7 @@ class TestRestCase(object):
             ..
     In the configfile there is the section "test" any key in the next deeper level is logically 
     represented by an instance of this class. This applies for anything on this level but "global". 
-    Note also any instance knows its previous test case an the next - kind of double linked list.
-    is represented by a  
+    Note also any instance knows its previous and its next test case - kind of double linked list.
     '''
     lh = None
     logger = None
