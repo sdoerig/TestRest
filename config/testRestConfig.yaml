@@ -47,23 +47,16 @@ test:
         authenticator:  
             class: testrest.authenticator.BasicAuthenticator.BasicAuthenticator
             params:
-                username: myBasicAuthUsername
-                password: myBasicAuthPassword
-        url: whatever2
+                username: wsuser
+                password: wspassword
+        url: testCase2Alias
         method: DELETE
-        params: 
-            param1: waatever
-            param2: whatever
-            param3: somewhat
+        params: {}
         assertions:
             testCase3_asserter1:
                 class: testrest.asserter.AssertTrue.AssertTrue
                 expr: expression
                 msg:  Error 6
-            testCase3_asserter2:
-                class: testrest.asserter.AssertTrue.AssertTrue
-                expr: expression
-                msg:  Error 7
         regress:
             testCase2:
                 alias: testCase2Alias

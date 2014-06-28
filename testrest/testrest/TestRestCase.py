@@ -27,9 +27,10 @@ class TestRestCase(object):
             ..
         testCase1:
             ..
-    In the configfile there is the section "test" any key in the next deeper level is logically 
-    represented by an instance of this class. This applies for anything on this level but "global". 
-    Note also any instance knows its previous and its next test case - kind of double linked list.
+    In the configfile there is the section "test" any key in the next deeper 
+    level is logically represented by an instance of this class. This applies 
+    for anything on this level but "global". Note also any instance knows its 
+    previous and its next test case - kind of double linked list.
     '''
     lh = None
     logger = None
@@ -42,6 +43,7 @@ class TestRestCase(object):
     _httpClient = None
     _assertions = None
     _authenticator = None
+    _regressData = None
     
 
     def __init__(self, previous, caseName, individualParams):
@@ -53,6 +55,7 @@ class TestRestCase(object):
         self._params = JsonHandler()
         self._params.set(individualParams)
         self._next = None
+        self._regressData = {}
         self._apiClient = HttpClient() 
         self._jsonResult = JsonHandler()
         ClassReflector.lh = TestRestCase.lh
@@ -86,7 +89,8 @@ class TestRestCase(object):
         self._apiClient.setMethod(self._params.get('method'))
         self._apiClient.setHeader(self._params.get('header'))
         self._apiClient.setHeader(self._authenticator.getHeaders())
-        self._apiClient.setUrl(self._params.get('url'))
+        
+        self._apiClient.setUrl(self._regressedSubstitution('url'))
         params = self._params.get('params')
         TestRestCase.logger.info(self._caseName + ": Params: " + str(params))
         self._apiClient.setParameters(**params)
@@ -108,6 +112,19 @@ class TestRestCase(object):
                     self._assertions[ak]['class'].doAssert(self._jsonResult.get(*assertion['expr']), assertion['msg'])
                     TestRestCase.logger.info(self._caseName + ": assertion: success:  " + str(self._assertions[ak]['class'].isSuccess()))
             
+    def _regressedSubstitution(self, *argv):
+        """
+        Substitutes anything - if possible with regressed data
+        """
+        print(str(self._regressData))
+        param = str(self._params.get(*argv))
+        if param == None:
+            return ""
+        for k in self._regressData.keys():
+            param = param.replace(k, self._regressData[k])
+        return param
+        
+    
     def _prepareRegress(self):
         regress = self._params.get('regress')
         if regress != None:
@@ -115,8 +132,7 @@ class TestRestCase(object):
             for k in regress.keys():
                 TestRestCase.logger.debug("_prepareRegress: regress key: " + str(k))
                 TestRestCase.logger.debug("_prepareRegress: regress path: " + str(regress[k]['path']))
-                path = regress[k]['path']
-                print("regress res: testCaseName:  " + self._caseName + ": regress value " + str(self.getPreviousTestResult(k, *path)))
+                self._regressData[regress[k]['alias']] = str(self.getPreviousTestResult(k, *regress[k]['path']))
     
     def getNext(self):
         return self._next
