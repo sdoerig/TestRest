@@ -76,6 +76,7 @@ class TestRestCase(object):
             self._previous = previous
         else:
             self._previous = None
+        #TestRestCase.logger.debug(self._caseName + ': assertions: ' + str(self._assertions))
         
             
         
@@ -100,9 +101,12 @@ class TestRestCase(object):
         for ak in self._assertions:
             TestRestCase.logger.info(self._caseName + ": runCase: assertion key: " + ak)
             if (self._assertions[ak]['class'] != None):
-                # if having an instance - ok let's check
+                TestRestCase.logger.debug(self._caseName + ": runCase: assertion key: " + ak + ": class instantiated")
                 for assertion in self._assertions[ak]['assertions']:
-                    self._assertions[ak]['class'].doAssert(self._jsonResult.get(assertion['expr']), assertion['msg'])
+                    TestRestCase.logger.debug('asserter: checking expression: ' + 
+                                              str(self._jsonResult.get(*assertion['expr'])))
+                    self._assertions[ak]['class'].doAssert(self._jsonResult.get(*assertion['expr']), assertion['msg'])
+                    TestRestCase.logger.info(self._caseName + ": assertion: success:  " + str(self._assertions[ak]['class'].isSuccess()))
             
     def _prepareCallbacks(self):
         callback = self._params.get('callback')

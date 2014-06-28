@@ -12,7 +12,7 @@ test:
             params:
                 username: wsuser
                 password: wspassword
-        url: http://localhost:8080/contact/4
+        url: http://localhost:9000/contact/4
         method: GET
         params: {}
         header:
@@ -28,7 +28,7 @@ test:
             params:
                 username: wsuser
                 password: wspassword
-        url: http://localhost:8080/contact
+        url: http://localhost:9000/contact
         method: POST
         params: 
             firstName: TESTREST
@@ -38,21 +38,11 @@ test:
             Content-Type: application/json
         assertions:
             testCase2_asserter1:
-                class: testrest.asserter.AssertTrue.AssertTrue 
-                expr: expression
-                msg: Error 2
-            testCase2_asserter2: 
-                class: i.do.not.exist 
-                expr: expression
-                msg: Error 3
-            testCase2_asserter3:
-                class: testrest.asserter.AssertTrue.IDoNotExist
-                expr: expression
-                msg: Error 4
-            testCase2_asserter4:
-                class: testrest.asserter.AssertTrue.IDoNotExist
-                expr: expression
-                msg: Error 5
+                class: testrest.asserter.AssertIsNotNone.AssertIsNotNone
+                expr: 
+                    - header
+                    - Location
+                msg: No location header set - creation might have failed.
     testCase3:
         authenticator:  
             class: testrest.authenticator.BasicAuthenticator.BasicAuthenticator

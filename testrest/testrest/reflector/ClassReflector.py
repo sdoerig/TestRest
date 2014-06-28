@@ -19,6 +19,8 @@ class ClassReflector(object):
         moduleClassTokens = moduleclass.split('.')
         module = ".".join(moduleClassTokens[:-1])
         className = moduleClassTokens[-1]
+        ClassReflector.logger.debug("module: " + module)
+        ClassReflector.logger.debug("className: " + className)
         try:
             module = importlib.import_module(module)
             myClass = getattr(module, className)
