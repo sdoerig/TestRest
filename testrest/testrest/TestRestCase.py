@@ -81,7 +81,7 @@ class TestRestCase(object):
             
         
     def runCase(self):
-        self._prepareCallbacks()
+        self._prepareRegress()
         TestRestCase.logger.info('Running case ' + self._caseName + " method " + self._params.get('method'))
         self._apiClient.setMethod(self._params.get('method'))
         self._apiClient.setHeader(self._params.get('header'))
@@ -108,15 +108,15 @@ class TestRestCase(object):
                     self._assertions[ak]['class'].doAssert(self._jsonResult.get(*assertion['expr']), assertion['msg'])
                     TestRestCase.logger.info(self._caseName + ": assertion: success:  " + str(self._assertions[ak]['class'].isSuccess()))
             
-    def _prepareCallbacks(self):
-        callback = self._params.get('callback')
-        if callback != None:
-            # ok having callbacks
-            for k in callback.keys():
-                TestRestCase.logger.debug("_prepareCallbacks: callback key: " + str(k))
-                TestRestCase.logger.debug("_prepareCallbacks: callback path: " + str(callback[k]['path']))
-                path = callback[k]['path']
-                print("Callback res: testCaseName:  " + self._caseName + ": callback value " + str(self.getPreviousTestResult(k, *path)))
+    def _prepareRegress(self):
+        regress = self._params.get('regress')
+        if regress != None:
+            # ok having regresss
+            for k in regress.keys():
+                TestRestCase.logger.debug("_prepareRegress: regress key: " + str(k))
+                TestRestCase.logger.debug("_prepareRegress: regress path: " + str(regress[k]['path']))
+                path = regress[k]['path']
+                print("regress res: testCaseName:  " + self._caseName + ": regress value " + str(self.getPreviousTestResult(k, *path)))
     
     def getNext(self):
         return self._next

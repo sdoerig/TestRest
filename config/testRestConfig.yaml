@@ -64,7 +64,7 @@ test:
                 class: testrest.asserter.AssertTrue.AssertTrue
                 expr: expression
                 msg:  Error 7
-        callback:
+        regress:
             testCase2:
                 alias: testCase2Alias
                 path: 
