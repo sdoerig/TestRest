@@ -2,14 +2,14 @@ logger:
     name: TestRest
     fileloglevel: DEBUG
     consoleloglevel: DEBUG
-    file: /tmp/what2.txt
+    file: /tmp/testrest.txt
 test:
     global:
         baseurl: <optional>
     testCase1:
         authenticator:  
             class: testrest.authenticator.BasicAuthenticator.BasicAuthenticator
-            params:
+            kwargs:
                 username: wsuser
                 password: wspassword
         url: http://localhost:9000/contact/4
@@ -25,7 +25,7 @@ test:
     testCase2:
         authenticator:  
             class: testrest.authenticator.BasicAuthenticator.BasicAuthenticator
-            params:
+            kwargs:
                 username: wsuser
                 password: wspassword
         url: http://localhost:9000/contact
@@ -43,10 +43,18 @@ test:
                     - header
                     - Location
                 msg: No location header set - creation might have failed.
+            testCase2_asserter2:
+                class: testrest.asserter.AssertIsGreater.AssertIsGreater
+                argv:
+                    - 666
+                expr: 
+                    - header
+                    - Location
+                msg: No location header set - creation might have failed.
     testCase3:
         authenticator:  
             class: testrest.authenticator.BasicAuthenticator.BasicAuthenticator
-            params:
+            kwargs:
                 username: wsuser
                 password: wspassword
         url: testCase2Alias

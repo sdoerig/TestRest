@@ -12,7 +12,7 @@ class AssertIsNotNone(AbstractAssert):
     '''
     logger = None
 
-    def __init__(self):
+    def __init__(self, *argv, **kv):
         '''
         Constructor
         '''
