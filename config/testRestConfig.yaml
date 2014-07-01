@@ -1,28 +1,10 @@
 logger: 
-    name: TestRest
+    name: TestRestWhathever
     fileloglevel: DEBUG
-    consoleloglevel: DEBUG
+    consoleloglevel: INFO
     file: /tmp/testrest.txt
 test:
-    global:
-        baseurl: <optional>
-    testCase1:
-        authenticator:  
-            class: testrest.authenticator.BasicAuthenticator.BasicAuthenticator
-            kwargs:
-                username: wsuser
-                password: wspassword
-        url: http://localhost:9000/contact/4
-        method: GET
-        params: {}
-        header:
-            Content-Type: application/json
-        assertions:
-            testCase1_asserter1:
-                class: testrest.asserter.AssertTrue.AssertTrue 
-                expr: expression
-                msg: Error 1
-    testCase2:
+    000_testCasePost:
         authenticator:  
             class: testrest.authenticator.BasicAuthenticator.BasicAuthenticator
             kwargs:
@@ -51,13 +33,70 @@ test:
                     - header
                     - Location
                 msg: No location header set - creation might have failed.
-    testCase3:
+    010_testCaseGET:
         authenticator:  
             class: testrest.authenticator.BasicAuthenticator.BasicAuthenticator
             kwargs:
                 username: wsuser
                 password: wspassword
-        url: testCase2Alias
+        url: http://localhost:9000/contact/4
+        method: GET
+        params: {}
+        header:
+            Content-Type: application/json
+        assertions:
+            testCase1_asserter1:
+                class: testrest.asserter.AssertTrue.AssertTrue 
+                expr: expression
+                msg: Error 1
+        regress:
+            000_testCasePost:
+                alias: 000_testCasePostAlias
+                path: 
+                    - header
+                    - Location
+    015_testCasePUT:
+        authenticator:  
+            class: testrest.authenticator.BasicAuthenticator.BasicAuthenticator
+            kwargs:
+                username: wsuser
+                password: wspassword
+        url: 000_testCasePostAlias
+        method: PUT
+        params: 
+            firstName: myLittleTest
+            lastName: BAR
+            phone: 0912345678
+        header:
+            Content-Type: application/json
+        assertions:
+            testCase2_asserter1:
+                class: testrest.asserter.AssertIsNotNone.AssertIsNotNone
+                expr: 
+                    - header
+                    - Location
+                msg: No location header set - creation might have failed.
+            testCase2_asserter2:
+                class: testrest.asserter.AssertIsGreater.AssertIsGreater
+                argv:
+                    - 666
+                expr: 
+                    - header
+                    - Location
+                msg: No location header set - creation might have failed.
+        regress:
+            000_testCasePost:
+                alias: 000_testCasePostAlias
+                path: 
+                    - header
+                    - Location
+    020_testCaseDELETE:
+        authenticator:  
+            class: testrest.authenticator.BasicAuthenticator.BasicAuthenticator
+            kwargs:
+                username: wsuser
+                password: wspassword
+        url: 000_testCasePostAlias
         method: DELETE
         params: {}
         assertions:
@@ -66,8 +105,8 @@ test:
                 expr: expression
                 msg:  Error 6
         regress:
-            testCase2:
-                alias: testCase2Alias
+            000_testCasePost:
+                alias: 000_testCasePostAlias
                 path: 
                     - header
                     - Location

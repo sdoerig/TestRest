@@ -44,7 +44,7 @@ class HttpClient(object):
             self.__header.update(header)
     
     def setMethod(self, method):
-        if method == 'GET' or method == 'POST' or method == 'DELETE':
+        if method in [ 'GET', 'POST', 'DELETE', 'PUT']:
             self.__method = method 
     
     def getUrlInMethodContext(self):
@@ -56,7 +56,7 @@ class HttpClient(object):
     def doWork(self):
         print (self.getUrlInMethodContext())
         req = None
-        if self.__method == "POST" or self.__method == "DELETE":
+        if self.__method == "POST" or self.__method == "DELETE" or self.__method == "PUT":
             print (self.getUrlInMethodContext())
             req = urllib.request.Request(self.getUrlInMethodContext(), \
                                          json.dumps(self.__parameters).encode('utf_8'))

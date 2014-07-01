@@ -10,6 +10,7 @@ list.
 from testrest.handler.JsonHandler import JsonHandler
 from testrest.reflector.ClassReflector import ClassReflector
 from testrest.apiclient.HttpClient import HttpClient
+from testrest.authenticator.AbstractAuthenticator import AbstractAuthenticator
 
 
 __author__ = 'sdoerig@bluewin.ch'
@@ -93,17 +94,20 @@ class TestRestCase(object):
         TestRestCase.logger.info('Running case ' + self._caseName + " method " + self._params.get('method'))
         self._apiClient.setMethod(self._params.get('method'))
         self._apiClient.setHeader(self._params.get('header'))
-        self._apiClient.setHeader(self._authenticator.getHeaders())
+        if isinstance(self._authenticator, AbstractAuthenticator):
+            self._apiClient.setHeader(self._authenticator.getHeaders())
         
-        self._apiClient.setUrl(self._regressedSubstitution('url'))
+        self._apiClient.setUrl(self._regressedSubstitution(self._params.get('url')))
         params = self._params.get('params')
+        for pkey in params.keys():
+            params[pkey] = self._regressedSubstitution(params[pkey])
         TestRestCase.logger.info(self._caseName + ": Params: " + str(params))
         self._apiClient.setParameters(**params)
         try:
             res = self._apiClient.doWork()
         except Exception as e:
             res  = None
-            TestRestCase.logger.warning('Http client has thown an error: ' + str(e.args))
+            TestRestCase.logger.warning('Http client has thrown an error: ' + str(e.args))
         TestRestCase.logger.debug("runCase: HTTP result: " + str(res))
         self._jsonResult.set(res)
         #print (str(self._assertions))
@@ -117,12 +121,10 @@ class TestRestCase(object):
                     self._assertions[ak]['class'].doAssert(self._jsonResult.get(*assertion['expr']), assertion['msg'])
                     TestRestCase.logger.info(self._caseName + ": assertion key: " + ak + " assertion: success:  " + str(self._assertions[ak]['class'].isSuccess()))
             
-    def _regressedSubstitution(self, *argv):
+    def _regressedSubstitution(self, param):
         """
         Substitutes anything - if possible with regressed data
         """
-        print(str(self._regressData))
-        param = str(self._params.get(*argv))
         if param == None:
             return ""
         for k in self._regressData.keys():
