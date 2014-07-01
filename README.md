@@ -1,11 +1,12 @@
 TestRest
 ========
 
-POC Testing frame work for RESTfull Servers.
+POC Testing frame work for RESTfull Servers. It allows you to define your test in a YAML file. For a more detailed information please have a look at the Wiki pages (still sparse - but I'm on my way).
 
 Installation
 ============
-Clone this repo
+* Clone this repo.
+* You'll need a RESTfull server you would like to test.
 
 Prereq
 ======
