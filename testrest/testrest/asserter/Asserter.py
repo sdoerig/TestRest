@@ -1,5 +1,7 @@
 from testrest.asserter.AbstractAssert import AbstractAssert
 '''
+Module aggregating all general purpose Asserters
+
 Created on Jun 30, 2014
 
 @author: doerig
@@ -12,6 +14,8 @@ class AssertIsGreater(AbstractAssert):
     logger = None
     _a = None
 
+    doAssertArgs = {'expr': AbstractAssert.JSONRESULT, 'msg': AbstractAssert.LITERAL}
+
     def __init__(self, a):
         '''
         Constructor
@@ -20,7 +24,7 @@ class AssertIsGreater(AbstractAssert):
         self._a = a
         AssertIsGreater.logger.debug("AssertIsGreater: a " + str(self._a))
 
-    def doAssert(self, expr, msg):
+    def doAssert(self, expr=None, msg=None):
         AssertIsGreater.logger.debug("doAssert called...")
         try:
             self.assertGreater(self._a, expr, msg)
@@ -32,6 +36,9 @@ class AssertIsGreater(AbstractAssert):
             AssertIsGreater.logger.error("Assertion failed: " + str(error))
             self.setSuccess(False)
             
+
+    
+    
             
 class AssertIsNotNone(AbstractAssert):
     '''
@@ -39,13 +46,16 @@ class AssertIsNotNone(AbstractAssert):
     '''
     logger = None
 
+    doAssertArgs = {'expr': AbstractAssert.JSONRESULT, 'msg': AbstractAssert.LITERAL}
+
+
     def __init__(self, *argv, **kv):
         '''
         Constructor
         '''
         super().__init__()
 
-    def doAssert(self, expr, msg):
+    def doAssert(self, expr=None, msg=None):
         AssertIsNotNone.logger.debug("doAssert called...")
         try:
             self.assertIsNotNone(expr, msg)
@@ -60,13 +70,15 @@ class AssertTrue(AbstractAssert):
     '''
     logger = None
 
+    doAssertArgs = {'expr': AbstractAssert.JSONRESULT, 'msg': AbstractAssert.LITERAL}
+
     def __init__(self, *argv, **kv):
         '''
         Constructor
         '''
         super().__init__()
 
-    def doAssert(self, expr, msg):
+    def doAssert(self, expr=None, msg=None):
         AssertTrue.logger.debug("doAssert called...")
         try:
             self.assertTrue(expr, msg)
@@ -74,3 +86,4 @@ class AssertTrue(AbstractAssert):
         except AssertionError as error:
             AssertTrue.logger.error("Assertion failed: " + str(error))
             self.setSuccess(False)
+            

@@ -11,6 +11,7 @@ from testrest.handler.JsonHandler import JsonHandler
 from testrest.reflector.ClassReflector import ClassReflector
 from testrest.apiclient.HttpClient import HttpClient
 from testrest.authenticator.AbstractAuthenticator import AbstractAuthenticator
+from testrest.asserter.AbstractAssert import AbstractAssert
 
 
 __author__ = 'sdoerig@bluewin.ch'
@@ -73,10 +74,14 @@ class TestRestCase(object):
         for ak in configuredAssertions:
             TestRestCase.logger.debug(self._caseName + ': Adding assertion key: ' + ak)
             if (self._assertions.get(ak, None) == None):
-                self._assertions[ak] = {'class': 
+                self._assertions[ak] = {'instance': 
                                         self._classReflector.getInstance(configuredAssertions[ak]['class'], 
                                                                          *configuredAssertions[ak].get('argv', []),
                                                                          **configuredAssertions[ak].get('kwargs', {})), 
+                                        'class': 
+                                        self._classReflector.getInstancableClass(configuredAssertions[ak]['class'], 
+                                                                      *configuredAssertions[ak].get('argv', []),
+                                                                      **configuredAssertions[ak].get('kwargs', {})),
                                         'assertions': []}
             TestRestCase.logger.debug(self._caseName + ': Appending to: ' + ak + " " + str(configuredAssertions[ak]))
             self._assertions[ak]['assertions'].append(configuredAssertions[ak])
@@ -113,13 +118,30 @@ class TestRestCase(object):
         #print (str(self._assertions))
         for ak in self._assertions:
             TestRestCase.logger.info(self._caseName + ": runCase: assertion key: " + ak)
-            if (self._assertions[ak]['class'] != None):
+            if (self._assertions[ak]['instance'] != None):
                 TestRestCase.logger.debug(self._caseName + ": runCase: assertion key: " + ak + ": class instantiated")
                 for assertion in self._assertions[ak]['assertions']:
                     TestRestCase.logger.debug('asserter: checking expression: ' + 
                                               str(self._jsonResult.get(*assertion['expr'])))
-                    self._assertions[ak]['class'].doAssert(self._jsonResult.get(*assertion['expr']), assertion['msg'])
-                    TestRestCase.logger.info(self._caseName + ": assertion key: " + ak + " assertion: success:  " + str(self._assertions[ak]['class'].isSuccess()))
+                    self._assertions[ak]['instance'].doAssert(**self._prepareAsserterDoWorkKwargs(self._assertions[ak]['class'], assertion))
+                    TestRestCase.logger.info(self._caseName + ": assertion key: " + ak + " assertion: success:  " + str(self._assertions[ak]['instance'].isSuccess()))
+    
+    def _prepareAsserterDoWorkKwargs(self, assertClass, assertion):
+        doAssertArgs = None
+        ret = {}
+        try:
+            doAssertArgs = getattr(assertClass, 'doAssertArgs')
+        except AttributeError as err:
+            TestRestCase.logger.warning('doAssertArgs not found ' + str(err))
+            return assertion
+        for k in doAssertArgs.keys():
+            if doAssertArgs[k] == AbstractAssert.JSONRESULT:
+                ret[k] = self._jsonResult.get(*assertion['expr'])
+            else:
+                ret[k] = assertion[k]
+        return ret
+        
+                
             
     def _regressedSubstitution(self, param):
         """

@@ -9,6 +9,10 @@ class AbstractAssert(unittest.TestCase):
     classdocs
     '''
     _success = False
+    # Argument is JSON
+    JSONRESULT = 'JSONRESULT'
+    # Use value literal
+    LITERAL = 'LITERAL'
 
     def __init__(self):
         '''

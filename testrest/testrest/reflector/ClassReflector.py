@@ -16,6 +16,15 @@ class ClassReflector(object):
             ClassReflector.logger = ClassReflector.lh.getLogger(ClassReflector.__name__)
     
     def getInstance(self, moduleclass, *argv, **kwargs):
+        myClass = self.getInstancableClass(moduleclass, *argv, **kwargs)
+        try:
+            if (myClass.logger == None):
+                myClass.logger = ClassReflector.lh.getLogger(myClass.__name__)
+        except:
+            ClassReflector.logger.warn("Class " + myClass.__name__ + " does not have a logger attribute...")
+        return myClass(*argv, **kwargs)
+        
+    def getInstancableClass(self,  moduleclass, *argv, **kwargs):
         moduleClassTokens = moduleclass.split('.')
         module = ".".join(moduleClassTokens[:-1])
         className = moduleClassTokens[-1]
@@ -24,12 +33,7 @@ class ClassReflector(object):
         try:
             module = importlib.import_module(module)
             myClass = getattr(module, className)
-            try:
-                if (myClass.logger == None):
-                    myClass.logger = ClassReflector.lh.getLogger(myClass.__name__)
-            except:
-                ClassReflector.logger.warn("Class " + myClass.__name__ + " does not have a logger attribute...")
-            return myClass(*argv, **kwargs)
+            return myClass
         except ImportError as err:
             ClassReflector.logger.error('Package could not be found: ' + moduleclass)
             return None

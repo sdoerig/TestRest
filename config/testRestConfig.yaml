@@ -20,13 +20,13 @@ test:
             Content-Type: application/json
         assertions:
             testCase2_asserter1:
-                class: testrest.asserter.AssertIsNotNone.AssertIsNotNone
+                class: testrest.asserter.Asserter.AssertIsNotNone
                 expr: 
                     - header
                     - Location
                 msg: No location header set - creation might have failed.
             testCase2_asserter2:
-                class: testrest.asserter.AssertIsGreater.AssertIsGreater
+                class: testrest.asserter.Asserter.AssertIsGreater
                 argv:
                     - 666
                 expr: 
@@ -46,7 +46,7 @@ test:
             Content-Type: application/json
         assertions:
             testCase1_asserter1:
-                class: testrest.asserter.AssertTrue.AssertTrue 
+                class: testrest.asserter.Asserter.AssertTrue 
                 expr: expression
                 msg: Error 1
         regress:
@@ -71,13 +71,13 @@ test:
             Content-Type: application/json
         assertions:
             testCase2_asserter1:
-                class: testrest.asserter.AssertIsNotNone.AssertIsNotNone
+                class: testrest.asserter.Asserter.AssertIsNotNone
                 expr: 
                     - header
                     - Location
                 msg: No location header set - creation might have failed.
             testCase2_asserter2:
-                class: testrest.asserter.AssertIsGreater.AssertIsGreater
+                class: testrest.asserter.Asserter.AssertIsGreater
                 argv:
                     - 666
                 expr: 
@@ -101,7 +101,7 @@ test:
         params: {}
         assertions:
             testCase3_asserter1:
-                class: testrest.asserter.AssertTrue.AssertTrue
+                class: testrest.asserter.Asserter.AssertTrue
                 expr: expression
                 msg:  Error 6
         regress:
