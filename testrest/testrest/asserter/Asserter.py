@@ -14,7 +14,7 @@ class AssertIsGreater(AbstractAssert):
     logger = None
     _a = None
 
-    doAssertArgs = {'expr': AbstractAssert.JSONRESULT, 'msg': AbstractAssert.LITERAL}
+    doAssertArgs = {'b': AbstractAssert.JSONRESULT, 'msg': AbstractAssert.LITERAL}
 
     def __init__(self, a):
         '''
@@ -24,10 +24,10 @@ class AssertIsGreater(AbstractAssert):
         self._a = a
         AssertIsGreater.logger.debug("AssertIsGreater: a " + str(self._a))
 
-    def doAssert(self, expr=None, msg=None):
-        AssertIsGreater.logger.debug("doAssert called...")
+    def doAssert(self, b=None, msg=None):
+        AssertIsGreater.logger.debug("doAssert: expr=" + str(b))
         try:
-            self.assertGreater(self._a, expr, msg)
+            self.assertGreater(self._a, b, msg)
             self.setSuccess(True)
         except AssertionError as error:
             AssertIsGreater.logger.error("Assertion failed: " + str(error))

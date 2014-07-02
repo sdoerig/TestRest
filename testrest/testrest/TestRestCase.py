@@ -121,8 +121,6 @@ class TestRestCase(object):
             if (self._assertions[ak]['instance'] != None):
                 TestRestCase.logger.debug(self._caseName + ": runCase: assertion key: " + ak + ": class instantiated")
                 for assertion in self._assertions[ak]['assertions']:
-                    TestRestCase.logger.debug('asserter: checking expression: ' + 
-                                              str(self._jsonResult.get(*assertion['expr'])))
                     self._assertions[ak]['instance'].doAssert(**self._prepareAsserterDoWorkKwargs(self._assertions[ak]['class'], assertion))
                     TestRestCase.logger.info(self._caseName + ": assertion key: " + ak + " assertion: success:  " + str(self._assertions[ak]['instance'].isSuccess()))
     
@@ -136,7 +134,10 @@ class TestRestCase(object):
             return assertion
         for k in doAssertArgs.keys():
             if doAssertArgs[k] == AbstractAssert.JSONRESULT:
-                ret[k] = self._jsonResult.get(*assertion['expr'])
+                ret[k] = self._jsonResult.get(*assertion[k])
+                if ret[k] == None:
+                    # ok it's None. Might there be something in regressed data...
+                    ret[k] = self._regressedSubstitution(assertion[k])
             else:
                 ret[k] = assertion[k]
         return ret
@@ -147,8 +148,11 @@ class TestRestCase(object):
         """
         Substitutes anything - if possible with regressed data
         """
+        
         if param == None:
             return ""
+        if not isinstance(param, str):
+            return param
         for k in self._regressData.keys():
             param = param.replace(k, self._regressData[k])
         return param
@@ -187,5 +191,10 @@ class TestRestCase(object):
         return self._next
         
     def __str__(self, *args, **kwargs):
-        TestRestCase.logger.debug('__str__ called')
-        return str(self._caseName + " Params: " + str(self._params))
+        cstring = "\n\n##############################################################\n"
+        cstring += str(self._caseName + "\n\n Params: \n" + str(self._params)) + "\n"
+        cstring += "\n\nJSON result: \n" + str(self._jsonResult)
+        if self._next != None:
+            cstring = cstring + str(self.getNext())
+        return cstring + "\n"
+    

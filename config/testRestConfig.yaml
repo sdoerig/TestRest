@@ -29,7 +29,7 @@ test:
                 class: testrest.asserter.Asserter.AssertIsGreater
                 argv:
                     - 666
-                expr: 
+                b: 
                     - header
                     - Location
                 msg: No location header set - creation might have failed.
@@ -72,14 +72,6 @@ test:
         assertions:
             testCase2_asserter1:
                 class: testrest.asserter.Asserter.AssertIsNotNone
-                expr: 
-                    - header
-                    - Location
-                msg: No location header set - creation might have failed.
-            testCase2_asserter2:
-                class: testrest.asserter.Asserter.AssertIsGreater
-                argv:
-                    - 666
                 expr: 
                     - header
                     - Location

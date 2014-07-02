@@ -29,9 +29,8 @@ def main():
     print ('Config file is "' + configfile)
     testRestManager = TestRestManager(configfile)
     testRestManager.iterateTestCases()
-    #a = AssertTrue.AssertTrue()
-    #a.doAssert()
-    #print(a.isSuccess())
+    print(str(testRestManager))
+    
 
 
 if __name__ == "__main__":

@@ -66,3 +66,6 @@ class TestRestManager(object):
             tc.runCase()
             tc = tc.getNext()
             
+    def __str__(self):
+        return str(self._testCaseRoot)
+            
