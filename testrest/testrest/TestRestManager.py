@@ -65,7 +65,10 @@ class TestRestManager(object):
         while tc is not None:
             tc.runCase()
             tc = tc.getNext()
-            
+      
+    def generateReport(self):
+        if self._testCaseRoot != None:
+            return self._testCaseRoot.generateReport()        
     def __str__(self):
         return str(self._testCaseRoot)
             

@@ -79,7 +79,7 @@ class AssertTrue(AbstractAssert):
         super().__init__()
 
     def doAssert(self, expr=None, msg=None):
-        AssertTrue.logger.debug("doAssert called...")
+        AssertTrue.logger.debug("doAssert: " + str(expr))
         try:
             self.assertTrue(expr, msg)
             self.setSuccess(True)

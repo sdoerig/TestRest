@@ -150,9 +150,9 @@ class TestRestCase(object):
         """
         
         if param == None:
-            return ""
+            return None
         if not isinstance(param, str):
-            return param
+            return None
         for k in self._regressData.keys():
             param = param.replace(k, self._regressData[k])
         return param
@@ -189,6 +189,26 @@ class TestRestCase(object):
     def add(self, caseName, individualParams):
         self._next = TestRestCase(self, caseName, individualParams)
         return self._next
+        
+    def generateReport(self):
+        cstring = "\n\n##############################################################\n"
+        cstring += "Assertion report:\n"
+        cstring += "Case name: " + self._caseName + "\n"
+        cstring += "Assertions: \n"
+        for ak in self._assertions:
+            if (self._assertions[ak]['instance'] != None):
+                TestRestCase.logger.debug(self._caseName + ": runCase: assertion key: " + ak + ": class instantiated")
+                for assertion in self._assertions[ak]['assertions']:
+                    cstring += "- " +  ak + ": "
+                    if self._assertions[ak]['instance'].isSuccess():
+                        cstring += "OK\n"
+                    else:
+                        cstring += "NOK\n"
+            else:
+                cstring += "- WARNING: " + ak + ": class could not be instanced. \n"
+        if self.getNext() != None:
+            cstring += self.getNext().generateReport()
+        return cstring
         
     def __str__(self, *args, **kwargs):
         cstring = "\n\n##############################################################\n"

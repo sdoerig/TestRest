@@ -30,7 +30,7 @@ def main():
     testRestManager = TestRestManager(configfile)
     testRestManager.iterateTestCases()
     print(str(testRestManager))
-    
+    print (testRestManager.generateReport())
 
 
 if __name__ == "__main__":

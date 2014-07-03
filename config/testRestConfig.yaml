@@ -47,7 +47,9 @@ test:
         assertions:
             testCase1_asserter1:
                 class: testrest.asserter.Asserter.AssertTrue 
-                expr: expression
+                expr: 
+                    - body
+                    - firstname
                 msg: Error 1
         regress:
             000_testCasePost:
