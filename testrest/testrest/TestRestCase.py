@@ -199,7 +199,7 @@ class TestRestCase(object):
             if (self._assertions[ak]['instance'] != None):
                 TestRestCase.logger.debug(self._caseName + ": runCase: assertion key: " + ak + ": class instantiated")
                 for assertion in self._assertions[ak]['assertions']:
-                    cstring += "- " +  ak + ": "
+                    cstring += "- " +  ak + ": " + self._assertions[ak]['instance'].getName() + ": "
                     if self._assertions[ak]['instance'].isSuccess():
                         cstring += "OK\n"
                     else:

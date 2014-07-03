@@ -49,7 +49,7 @@ test:
                 class: testrest.asserter.Asserter.AssertTrue 
                 expr: 
                     - body
-                    - firstname
+                    - firstName
                 msg: Error 1
         regress:
             000_testCasePost:

@@ -31,3 +31,6 @@ class AbstractAssert(unittest.TestCase):
             self._success = True
         else:
             self._success = False
+
+    def getName(self):
+        return str(self.__class__)
