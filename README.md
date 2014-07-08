@@ -32,4 +32,4 @@ Release Date: February 2014<br />
 ISBN: 1783289538<br />
 ISBN 13: 9781783289530
 
-It's worth buying.
+It's worth buying - http://www.packtpub.com/restful-web-services-with-dropwizard/book
