@@ -1,12 +1,12 @@
 TestRest
 ========
 
-POC Testing frame work for RESTfull Servers. It allows you to define your test in a YAML file. For a more detailed information please have a look at the Wiki pages (still sparse - but I'm on my way).
+POC Testing framework for RESTfull services testing. It allows you to define all your tests in a YAML file - without writing any code. For a more detailed information please have a look at the Wiki pages (still sparse - but I'm on my way).
 
 Installation
 ============
 * Clone this repo.
-* You'll need a RESTfull server you would like to test.
+* You'll need a RESTfull services you would like to test.
 
 Prereq
 ======
@@ -21,3 +21,15 @@ python3 src/TestRest.py -c config/testRestConfig.yaml
 
 ```
 
+Config
+======
+
+The config file you find in the repo tests the dropwizard project introduced by the fine book 
+
+RESTful Web Services with Dropwizard<br />
+Alexandros Dallas<br />
+Release Date: February 2014<br />
+ISBN: 1783289538<br />
+ISBN 13: 9781783289530
+
+It's worth buying.
