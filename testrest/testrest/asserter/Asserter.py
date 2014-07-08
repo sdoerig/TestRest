@@ -25,6 +25,7 @@ class AssertIsGreater(AbstractAssert):
         AssertIsGreater.logger.debug("AssertIsGreater: a " + str(self._a))
 
     def doAssert(self, b=None, msg=None):
+        self.setStatusMessage("a = " + str(self._a) + "; b = " + str(b) )
         AssertIsGreater.logger.debug("doAssert: expr=" + str(b))
         try:
             self.assertGreater(self._a, b, msg)
@@ -56,6 +57,7 @@ class AssertIsNotNone(AbstractAssert):
         super().__init__()
 
     def doAssert(self, expr=None, msg=None):
+        self.setStatusMessage("expr = " + str(expr))
         AssertIsNotNone.logger.debug("doAssert called...")
         try:
             self.assertIsNotNone(expr, msg)
@@ -79,6 +81,7 @@ class AssertTrue(AbstractAssert):
         super().__init__()
 
     def doAssert(self, expr=None, msg=None):
+        self.setStatusMessage("expr = " + str(expr))
         AssertTrue.logger.debug("doAssert: " + str(expr))
         try:
             self.assertTrue(expr, msg)

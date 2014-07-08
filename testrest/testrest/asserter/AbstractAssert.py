@@ -9,6 +9,7 @@ class AbstractAssert(unittest.TestCase):
     classdocs
     '''
     _success = False
+    _status = ""
     # Argument is JSON
     JSONRESULT = 'JSONRESULT'
     # Use value literal
@@ -18,7 +19,13 @@ class AbstractAssert(unittest.TestCase):
         '''
         Constructor
         '''
+        self._status = ""
     
+    def getStatusMessage(self):
+        return self._status
+    
+    def setStatusMessage(self, msg):
+        self._status = msg
 
     def doAssert(self, expr, msg ):
         raise NotImplementedError("Subclasses should implement this!")

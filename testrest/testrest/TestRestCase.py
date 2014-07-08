@@ -204,6 +204,7 @@ class TestRestCase(object):
                         cstring += "OK\n"
                     else:
                         cstring += "NOK\n"
+                    cstring += self._assertions[ak]['instance'].getStatusMessage()
             else:
                 cstring += "- WARNING: " + ak + ": class could not be instanced. \n"
         if self.getNext() != None:
