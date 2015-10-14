@@ -1,7 +1,7 @@
 TestRest
 ========
 
-POC Testing framework for RESTfull services testing. It allows you to define all your tests in a YAML file - without writing any code. For a more detailed information please have a look at the Wiki pages (still sparse - but I'm on my way).
+POC Testing framework for RESTfull services testing. It allows you to define all your tests in a YAML file - without writing any code.
 
 Installation
 ============
