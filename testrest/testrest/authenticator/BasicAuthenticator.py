@@ -4,8 +4,9 @@ Created on Jun 10, 2014
 '''
 __author__ = 'sdoerig@bluewin.ch'
 
-from testrest.authenticator.AbstractAuthenticator import AbstractAuthenticator
 import base64
+
+from testrest.authenticator.AbstractAuthenticator import AbstractAuthenticator
 
 
 class BasicAuthenticator(AbstractAuthenticator):
@@ -36,10 +37,7 @@ class BasicAuthenticator(AbstractAuthenticator):
                                         self._username + \
                                         ' set password to: ' + \
                                         self._password)
-        
 
     def getHeaders(self):
-        return { "Authorization":  "Basic " + \
-            base64.b64encode(str.encode(self._usertoken)).decode("utf-8")  }
-            
-        
+        return {"Authorization": "Basic " + \
+                                 base64.b64encode(str.encode(self._usertoken)).decode("utf-8")}

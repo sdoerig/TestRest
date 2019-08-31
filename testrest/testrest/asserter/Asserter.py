@@ -1,4 +1,5 @@
 from testrest.asserter.AbstractAssert import AbstractAssert
+
 '''
 Module aggregating all general purpose Asserters
 
@@ -6,6 +7,7 @@ Created on Jun 30, 2014
 
 @author: doerig
 '''
+
 
 class AssertIsGreater(AbstractAssert):
     '''
@@ -25,7 +27,7 @@ class AssertIsGreater(AbstractAssert):
         AssertIsGreater.logger.debug("AssertIsGreater: a " + str(self._a))
 
     def doAssert(self, b=None, msg=None):
-        self.setStatusMessage("a = " + str(self._a) + "; b = " + str(b) )
+        self.setStatusMessage("a = " + str(self._a) + "; b = " + str(b))
         AssertIsGreater.logger.debug("doAssert: expr=" + str(b))
         try:
             self.assertGreater(self._a, b, msg)
@@ -36,11 +38,8 @@ class AssertIsGreater(AbstractAssert):
         except Exception as error:
             AssertIsGreater.logger.error("Assertion failed: " + str(error))
             self.setSuccess(False)
-            
 
-    
-    
-            
+
 class AssertIsNotNone(AbstractAssert):
     '''
     classdocs
@@ -48,7 +47,6 @@ class AssertIsNotNone(AbstractAssert):
     logger = None
 
     doAssertArgs = {'expr': AbstractAssert.JSONRESULT, 'msg': AbstractAssert.LITERAL}
-
 
     def __init__(self, *argv, **kv):
         '''
@@ -65,7 +63,8 @@ class AssertIsNotNone(AbstractAssert):
         except AssertionError as error:
             AssertIsNotNone.logger.error("Assertion failed: " + str(error))
             self.setSuccess(False)
-            
+
+
 class AssertTrue(AbstractAssert):
     '''
     classdocs
@@ -89,4 +88,3 @@ class AssertTrue(AbstractAssert):
         except AssertionError as error:
             AssertTrue.logger.error("Assertion failed: " + str(error))
             self.setSuccess(False)
-            

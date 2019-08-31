@@ -1,8 +1,8 @@
 __author__ = 'sdoerig@bluewin.ch'
 
-
-#from unittest import TestCase
+# from unittest import TestCase
 import unittest
+
 
 class AbstractAssert(unittest.TestCase):
     '''
@@ -20,14 +20,14 @@ class AbstractAssert(unittest.TestCase):
         Constructor
         '''
         self._status = ""
-    
+
     def getStatusMessage(self):
         return self._status
-    
+
     def setStatusMessage(self, msg):
         self._status = msg
 
-    def doAssert(self, expr, msg ):
+    def doAssert(self, expr, msg):
         raise NotImplementedError("Subclasses should implement this!")
 
     def isSuccess(self):

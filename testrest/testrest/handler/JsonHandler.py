@@ -6,6 +6,7 @@ Created on May 11, 2014
 
 import json
 
+
 class JsonHandler(object):
     '''
     classdocs
@@ -14,7 +15,6 @@ class JsonHandler(object):
     logger = None
     loggerFP = None
     _jsonDict = None;
-    
 
     def __init__(self):
         '''
@@ -23,18 +23,17 @@ class JsonHandler(object):
         if (JsonHandler.loggerFP == None):
             JsonHandler.loggerFP = JsonHandler.logSTDOUT
         self._jsonDict = {}
-        
-    
+
     def setLogHandler(lh):
         if (JsonHandler.lh == None):
             JsonHandler.lh = lh
         if ((JsonHandler.logger == None) and (JsonHandler.lh != None)):
-            JsonHandler.logger = JsonHandler.lh.getLogger(JsonHandler.__name__) 
+            JsonHandler.logger = JsonHandler.lh.getLogger(JsonHandler.__name__)
             JsonHandler.loggerFP = JsonHandler.log
-    
+
     def set(self, dict):
         self._jsonDict = dict
-    
+
     def get(self, *argv):
         """
         Returns a part of the loaded dictionary. 
@@ -53,18 +52,16 @@ class JsonHandler(object):
                 jsonPtr = jsonPtr[keyToken]
             else:
                 # out of any sequence 
-                jsonPtr = None  
+                jsonPtr = None
                 break
         return jsonPtr
-    
-    
-    
+
     def logSTDOUT(level, msg):
         print(level + "" + msg)
-    
+
     def log(level, msg):
         if (level == "DEBUG"):
             JsonHandler.logger.debug(msg)
-    
+
     def __str__(self):
         return str(json.dumps(self._jsonDict, sort_keys=True, indent=4, separators=(',', ': ')))

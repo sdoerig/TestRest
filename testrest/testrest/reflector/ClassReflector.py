@@ -6,15 +6,15 @@ Created on Jun 3, 2014
 
 import importlib
 
+
 class ClassReflector(object):
-     
     lh = None
-    logger = None    
-    
+    logger = None
+
     def __init__(self):
         if (ClassReflector.lh != None):
             ClassReflector.logger = ClassReflector.lh.getLogger(ClassReflector.__name__)
-    
+
     def getInstance(self, moduleclass, *argv, **kwargs):
         myClass = self.getInstancableClass(moduleclass, *argv, **kwargs)
         try:
@@ -23,8 +23,8 @@ class ClassReflector(object):
         except:
             ClassReflector.logger.warn("Class " + myClass.__name__ + " does not have a logger attribute...")
         return myClass(*argv, **kwargs)
-        
-    def getInstancableClass(self,  moduleclass, *argv, **kwargs):
+
+    def getInstancableClass(self, moduleclass, *argv, **kwargs):
         moduleClassTokens = moduleclass.split('.')
         module = ".".join(moduleClassTokens[:-1])
         className = moduleClassTokens[-1]
